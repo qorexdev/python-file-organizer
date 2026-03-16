@@ -1,0 +1,32 @@
+# File Organizer Configuration
+# Add custom categories or extend existing ones.
+# Extensions must start with a dot.
+
+categories:
+  # Add new category
+  Design:
+    - .psd
+    - .ai
+    - .sketch
+    - .fig
+    - .xd
+
+  # Add new category
+  Ebooks:
+    - .epub
+    - .mobi
+    - .azw3
+
+  # Extend existing category with more extensions
+  Documents:
+    - .md
+    - .rst
+    - .pages
+
+  # Data files
+  Data:
+    - .db
+    - .sqlite
+    - .sqlite3
+    - .parquet
+    - .feather
