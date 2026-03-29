@@ -1,6 +1,5 @@
 """Main organizer logic: scan directory, categorize files, move them."""
 
-import os
 import shutil
 from pathlib import Path
 from typing import Dict, List, Optional
@@ -79,7 +78,7 @@ def organize_directory(
     # Save undo log
     if not dry_run and moves:
         save_undo_log(directory, moves)
-        logger.success(f"Undo log saved. Run with --undo to revert.")
+        logger.success("Undo log saved. Run with --undo to revert.")
 
     return moved_count
 
