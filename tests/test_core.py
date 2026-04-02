@@ -1,7 +1,5 @@
-from pathlib import Path
-
 from organizer.core import organize_directory, _resolve_conflict
-from organizer.categories import get_extension_map, DEFAULT_CATEGORIES
+from organizer.categories import get_extension_map
 
 
 class TestExtensionMap:
