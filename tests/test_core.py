@@ -69,6 +69,44 @@ class TestOrganize:
         assert not (sample_dir / ".organize_undo.json").exists()
 
 
+class TestRecursive:
+    def test_recursive_organizes_subdirs(self, tmp_path):
+        (tmp_path / "photo.jpg").write_bytes(b"x")
+        sub = tmp_path / "stuff"
+        sub.mkdir()
+        (sub / "track.mp3").write_bytes(b"x")
+        (sub / "notes.pdf").write_bytes(b"x")
+
+        count = organize_directory(str(tmp_path), recursive=True)
+        assert count == 3
+        assert (tmp_path / "Images" / "photo.jpg").exists()
+        assert (sub / "Music" / "track.mp3").exists()
+        assert (sub / "Documents" / "notes.pdf").exists()
+
+    def test_recursive_skips_category_dirs(self, sample_dir):
+        organize_directory(str(sample_dir))
+        # run again with recursive — shouldn't re-sort files inside category dirs
+        count = organize_directory(str(sample_dir), recursive=True)
+        assert count == 0
+
+    def test_non_recursive_ignores_subdirs(self, tmp_path):
+        sub = tmp_path / "nested"
+        sub.mkdir()
+        (sub / "pic.png").write_bytes(b"x")
+        count = organize_directory(str(tmp_path))
+        assert count == 0
+        assert (sub / "pic.png").exists()
+
+    def test_recursive_dry_run(self, tmp_path):
+        sub = tmp_path / "sub"
+        sub.mkdir()
+        (sub / "doc.pdf").write_bytes(b"x")
+        count = organize_directory(str(tmp_path), recursive=True, dry_run=True)
+        assert count == 1
+        assert (sub / "doc.pdf").exists()
+        assert not (sub / "Documents").exists()
+
+
 class TestResolveConflict:
     def test_no_conflict(self, tmp_path):
         dest = tmp_path / "file.txt"
